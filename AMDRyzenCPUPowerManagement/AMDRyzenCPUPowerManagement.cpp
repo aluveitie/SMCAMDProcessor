@@ -357,6 +357,8 @@ bool AMDRyzenCPUPowerManagement::start(IOService *provider){
     workLoop = IOWorkLoop::workLoop();
     startWorkLoop();
 
+    // disables CPB at startup
+    setCPBState(false);
 
     PMinit();
     provider->joinPMtree(this);
