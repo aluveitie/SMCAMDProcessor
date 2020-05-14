@@ -147,7 +147,7 @@
             <objects>
                 <windowController storyboardIdentifier="AMDPowerGadget" id="B8D-0N-5wS" sceneMemberID="viewController">
                     <window key="window" title="AMD Power Gadget" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" appearanceType="darkAqua" animationBehavior="default" id="IQv-IB-iLA">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="410" height="770"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
@@ -169,14 +169,15 @@
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="AMD_Power_Gadget" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" appearanceType="darkAqua" id="m2S-Jp-Qdl">
+                    <view key="view" wantsLayer="YES" appearanceType="darkAqua" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="410" height="940"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView appearanceType="darkAqua" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQS-Yx-qAY">
-                                <rect key="frame" x="0.0" y="0.0" width="410" height="940"/>
-                                <clipView key="contentView" id="baN-DY-cIK">
-                                    <rect key="frame" x="1" y="1" width="408" height="938"/>
+                            <box fixedFrame="YES" boxType="custom" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="1fD-t9-5gM">
+                                <rect key="frame" x="3" y="4" width="404" height="940"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <view key="contentView" id="4FU-2c-Mfp">
+                                    <rect key="frame" x="1" y="1" width="402" height="938"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view id="TIX-Q5-kis">
@@ -482,33 +483,15 @@
                                             </constraints>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.11764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </clipView>
-                                <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="bxT-br-mDa">
-                                    <rect key="frame" x="-100" y="-100" width="408" height="16"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="FRn-xo-Ixx">
-                                    <rect key="frame" x="-100" y="-100" width="16" height="938"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </scroller>
-                            </scrollView>
+                                </view>
+                            </box>
                         </subviews>
-                        <constraints>
-                            <constraint firstItem="yQS-Yx-qAY" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="FB4-Nx-Ass"/>
-                            <constraint firstAttribute="bottom" secondItem="yQS-Yx-qAY" secondAttribute="bottom" id="GVc-Oc-48P"/>
-                            <constraint firstAttribute="trailing" secondItem="yQS-Yx-qAY" secondAttribute="trailing" id="Hx2-H4-9bg"/>
-                            <constraint firstItem="yQS-Yx-qAY" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="fLz-fj-gwq"/>
-                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="contentView" destination="TIX-Q5-kis" id="wEz-Ig-hwM"/>
                         <outlet property="frequencyGraphView" destination="dUS-mw-nYz" id="9sl-3B-4jx"/>
                         <outlet property="frequencyLabel" destination="nku-di-rIr" id="qQj-ak-8AC"/>
                         <outlet property="powerGraphView" destination="dVq-Zt-29Y" id="BX6-AM-WVJ"/>
                         <outlet property="powerLabel" destination="nPz-fp-E0B" id="rBT-bt-Ysz"/>
-                        <outlet property="scrollView" destination="yQS-Yx-qAY" id="f8E-U5-49q"/>
                         <outlet property="subtitleLabel" destination="lW7-TH-Jh4" id="7hy-Oa-Zma"/>
                         <outlet property="temperatureGraphView" destination="TFs-yj-lzu" id="TOn-7N-frS"/>
                         <outlet property="temperatureLabel" destination="iNA-Ja-LRu" id="wYy-bR-QLX"/>
@@ -988,7 +971,7 @@
                                                     <rect key="frame" x="9" y="140" width="127" height="23"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" alignment="left" title="Frequency Max:" id="S67-kA-60W">
-                                                        <font key="font" metaFont="menu" size="14"/>
+                                                        <font key="font" metaFont="menuBar"/>
                                                         <color key="textColor" red="0.39682106951734819" green="0.38716487256029775" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -1006,7 +989,7 @@
                                                     <rect key="frame" x="9" y="69" width="134" height="23"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" allowsUndo="NO" alignment="left" title="Inst(s) Retired:" id="qdI-Ya-6dw">
-                                                        <font key="font" metaFont="menu" size="14"/>
+                                                        <font key="font" metaFont="menuBar"/>
                                                         <color key="textColor" red="1" green="0.22007907837337137" blue="0.38047095040909751" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
