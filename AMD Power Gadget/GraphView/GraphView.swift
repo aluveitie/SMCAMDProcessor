@@ -46,13 +46,12 @@ class GraphView: NSView {
     var viewBottom : CGFloat = 0;
     var viewHeight : CGFloat = 100;
     
-    let gridDivLines: [CGFloat] = [0, 0.18, 0.38, 0.68, 1]
+    let gridDivLines: [Double] = [0.18, 0.38, 0.68]
     let maxDataPoints = 30
     
     let dummyData: [Double] = [1,3,2]
-//    let dummyData: [Double] = [1,1,1,3,2 ,1]
     
-    
+    var dataUpdated: Bool = false
     var dataMax : CGFloat = 0
     var dataMin : CGFloat = 0
     var dataDiff : CGFloat = 0
@@ -73,6 +72,12 @@ class GraphView: NSView {
         wantsLayer = true
         layer?.cornerRadius = 20
         layer?.masksToBounds = true
+        
+        addGridLine(v: 0)
+        for v in gridDivLines {
+            addGridLine(v: v)
+        }
+        addGridLine(v: 1)
     }
     
     override func draw(_ dirtyRect: NSRect) {
@@ -191,34 +196,36 @@ class GraphView: NSView {
         line.pointsY = ys
         
         if cgvalue < dataMin || dataMin == 0 {
-            if lastMinGrid == 0 {
-                addGridLine(v: y)
-                lastMinGrid = CGFloat(y)
-            } else {
-                assert(lastMinGrid >= cgvalue)
-                if lastMinGrid - cgvalue > dataDiff * 0.25{
-                    addGridLine(v: y)
-                    lastMinGrid = CGFloat(y)
-                }
-            }
+//            if lastMinGrid == 0 {
+//                addGridLine(v: y)
+//                lastMinGrid = CGFloat(y)
+//            } else {
+//                assert(lastMinGrid >= cgvalue)
+//                if lastMinGrid - cgvalue > dataDiff * 0.25{
+//                    addGridLine(v: y)
+//                    lastMinGrid = CGFloat(y)
+//                }
+//            }
 
             dataMin = CGFloat(cgvalue)
+            dataUpdated = true
         }
         
         if cgvalue > dataMax || dataMax == 0 {
-            if lastMaxGrid == 0 {
-                addGridLine(v: y)
-                lastMaxGrid = CGFloat(y)
-            } else {
-                assert(lastMaxGrid <= cgvalue)
-                if cgvalue - lastMaxGrid > dataDiff * 0.25{
-                    
-                    addGridLine(v: y)
-                    lastMaxGrid = CGFloat(y)
-                }
-            }
+//            if lastMaxGrid == 0 {
+//                addGridLine(v: y)
+//                lastMaxGrid = CGFloat(y)
+//            } else {
+//                assert(lastMaxGrid <= cgvalue)
+//                if cgvalue - lastMaxGrid > dataDiff * 0.25{
+//
+//                    addGridLine(v: y)
+//                    lastMaxGrid = CGFloat(y)
+//                }
+//            }
             
             dataMax = CGFloat(cgvalue)
+            dataUpdated = true
         }
         
         //thanks to yurkins for the fix
@@ -234,7 +241,8 @@ class GraphView: NSView {
             line.xOffset = -xs[1] * ds
         }
         
-        updateGridLine()
+        //updateGridLine()
+        drawGridLines();
         setNeedsDisplay(bounds)
     }
     
@@ -257,6 +265,41 @@ class GraphView: NSView {
             
             if hide {lastHeight = curHeight}
         }
+    }
+    
+    func drawGridLines() {
+        if !dataUpdated { return }
+        
+        var lastHeight : Double = -1000;
+        let minSpacing : Double = 20;
+        for (index, v) in gridDivLines.enumerated() {
+            let gl = gridLines[index+1]
+            gl.dataDiff = dataDiff
+            gl.dataMin = dataMin
+            
+            let valueOfV = Double(dataMin) + Double(dataDiff) * v
+            let curHeight = Double(viewHeight) * ((valueOfV - Double(dataMin)) / Double((dataDiff))) + Double(viewBottom)
+            gl.dataY = CGFloat(valueOfV)
+            
+            let hide = abs(curHeight - lastHeight) > minSpacing
+            gl.opacity = hide ? 1 : 0.1;
+            
+            if hide {
+                lastHeight = curHeight
+            }
+        }
+        
+        gridLines.first!.opacity = 1
+        gridLines.first!.dataDiff = dataDiff
+        gridLines.first!.dataMin = dataMin
+        gridLines.first!.dataY = dataMin
+        
+        gridLines.last!.opacity = 1
+        gridLines.last!.dataDiff = dataDiff
+        gridLines.last!.dataMin = dataMin
+        gridLines.last!.dataY = dataMax
+        
+        dataUpdated = false
     }
     
     open override func prepareForInterfaceBuilder() {
